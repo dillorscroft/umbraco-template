@@ -16,28 +16,26 @@ assembly_info:
   
 install:
   # Restore nuget packages
-  - cmd: nuget restore -verbosity quiet src\AgeBaseTemplate.sln
+  - cmd: nuget restore src\AgeBaseTemplate.sln
   
   # Install latest version of NodeJS
   - ps: Install-Product node Stable
   
-  # Install NodeJS and Bower packages
+  # Install Node and Bower packages
   - cmd: cd src\AgeBaseTemplate.UI
-  - cmd: npm --silent install
-  - cmd: node_modules\.bin\bower -s install
+  - cmd: npm install
   - cmd: cd ..\..
   
 before_build:
   # Run default gulp task to compile sass and js files
   - cmd: cd src\AgeBaseTemplate.UI
-  - cmd: node_modules\.bin\gulp
+  - cmd: node_modules\.bin\gulp release
   - cmd: cd ..\..
   
 build:
   # Build solution
   project: src\AgeBaseTemplate.sln
   publish_wap: true
-  verbosity: quiet
   
 before_deploy:
   # Restore database back to template
